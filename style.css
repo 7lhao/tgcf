@@ -23,6 +23,13 @@ body {
   flex-direction: column;
   padding: 10px;
 }
+.grid-item {
+  min-height: 40vw;
+  background-color: #eee;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
 img {
   width: 100%;
+  border-radius: 8px;
 }

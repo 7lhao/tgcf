@@ -60,11 +60,31 @@ let arrLength1 = parseInt(data.length / 2);
 
 for (let i in data) {
   if (i < arrLength1) {
-    html1 += `<div class="grid-item"><img src="./images/${data[i]}" /></div>`;
+    html1 += `<div class="grid-item"><img data-src="./images/${data[i]}" /></div>`;
   } else {
-    html2 += `<div class="grid-item"><img src="./images/${data[i]}" /></div>`;
+    html2 += `<div class="grid-item"><img data-src="./images/${data[i]}" /></div>`;
   }
 }
 
 document.querySelector(".image-group .group-1").innerHTML = html1;
 document.querySelector(".image-group .group-2").innerHTML = html2;
+
+const root = document.getElementsByTagName("ul")[0];
+const options = {
+  root: root,
+  threshold: [0], //交会处
+  rootMargin: "0px", //对视口进行收缩和扩张
+};
+const lazyIntersection = new IntersectionObserver((entires) => {
+  entires.forEach((item, index) => {
+    console.log(item);
+    if (item.isIntersecting) {
+      item.target.src = item.target.getAttribute("data-src");
+      lazyIntersection.unobserve(item.target);
+    }
+  });
+}, options);
+let imgEls = Array.from(document.getElementsByTagName("img"));
+imgEls.forEach((item) => {
+  lazyIntersection.observe(item);
+});
